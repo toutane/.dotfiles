@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+# Determine git branch name.
+function parse_git_branch (){
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+# Determine the branch/state information for this git repository.
+function set_git_branch () {
+  branch=$(parse_git_branch)
+  BRANCH="%F{magenta}${branch}%f"
+}
+
+# Set the full zsh prompt.
+function set_zsh_prompt () {
+  set_git_branch
+  PS1="%F{green}%n@%m%f:%F{blue}%~%f${BRANCH}$ "
+}
+
+precmd() {
+  set_zsh_prompt
+}
