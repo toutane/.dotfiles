@@ -37,6 +37,8 @@ function compare_with_remote() {
 function check_git_dirty() {
 	if [ ! -z "$(command git status --porcelain -u${untracked_git_mode})" ]; then
 		DIRTY_STATE="* "
+	else
+		DIRTY_STATE=""
 	fi
 }
 
