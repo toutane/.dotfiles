@@ -1,62 +1,57 @@
 #!/bin/zsh
 # Determine git branch name.
 function parse_git_branch (){
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 # Determine the branch/state information for this git repository.
 function set_git_branch () {
-  branch=$(parse_git_branch)
-  BRANCH="%F{magenta}${branch}%f"
+	branch=$(parse_git_branch)
+	BRANCH="%F{magenta}${branch}%f"
 }
 
 # Determine if the remote repository has changed.
 function compare_with_remote() {
-	is_inside_git_repo="$(git rev-parse --is-inside-work-tree 2> /dev/null)"
-	if [ "$is_inside_git_repo" ]; then
-		UPSTREAM=${1:-'@{u}'}
-		LOCAL=$(git rev-parse @)
-		REMOTE=$(git rev-parse "$UPSTREAM")
-		BASE=$(git merge-base @ "$UPSTREAM")
-		STATE=""
+	UPSTREAM=${1:-'@{u}'}
+	LOCAL=$(git rev-parse @)
+	REMOTE=$(git rev-parse "$UPSTREAM")
+	BASE=$(git merge-base @ "$UPSTREAM")
+	STATE=""
 
-		if [ $LOCAL = $REMOTE ]; then
-			#echo "Up-to-date"
-			STATE=""
-		elif [ $LOCAL = $BASE ]; then
-			#echo "Need to pull"
-			STATE=" ⇣ "
-		elif [ $REMOTE = $BASE ]; then
-			#echo "Need to push"
-			STATE=" ⇡ "
-		else
-			#echo "Diverged"
-			echo "2"
-		fi
-	else
+	if [ $LOCAL = $REMOTE ]; then
+		#echo "Up-to-date"
 		STATE=""
+	elif [ $LOCAL = $BASE ]; then
+		#echo "Need to pull"
+		STATE=" ⇣ "
+	elif [ $REMOTE = $BASE ]; then
+		#echo "Need to push"
+		STATE=" ⇡ "
+	else
+		#echo "Diverged"
+		echo "2"
 	fi
+}
 
 # Determine if repo is dirty.
 function check_git_dirty() {
-	is_inside_git_repo="$(git rev-parse --is-inside-work-tree 2> /dev/null)"
-	DIRTY_STATE=""
-	if [ "$is_inside_git_repo" ]; then
-		if [ ! -z "$(command git status --porcelain -u${untracked_git_mode})" ]; then
-			DIRTY_STATE="* "
-		fi
-	else
-		DIRTY_STATE=""
+	if [ ! -z "$(command git status --porcelain -u${untracked_git_mode})" ]; then
+		DIRTY_STATE="* "
 	fi
-	}
 }
 
 # Set the full zsh prompt.
 function set_zsh_prompt () {
-	set_git_branch
-	compare_with_remote
-	check_git_dirty
-	PS1="%F{green}%n@%m%f:%F{blue}%~%f${BRANCH}%F{magenta}${DIRTY_STATE}%f%F{yellow}${STATE}%f$ "
+	(git rev-parse 2> /dev/null)
+	local is_inside_git_repo=$?
+	if [[ $is_inside_git_repo -eq 0 ]]; then
+		set_git_branch
+		compare_with_remote
+		check_git_dirty
+		PS1="%F{green}%n@%m%f:%F{blue}%~%f${BRANCH}%F{magenta}${DIRTY_STATE}%f%F{yellow}${STATE}%f$ "
+	else
+		PS1="%F{green}%n@%m%f:%F{blue}%~%f$ "
+	fi
 }
 
 precmd() {
