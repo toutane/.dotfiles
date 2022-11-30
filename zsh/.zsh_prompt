@@ -48,7 +48,10 @@ function set_zsh_prompt () {
 	local is_inside_git_repo=$?
 	if [[ $is_inside_git_repo -eq 0 ]]; then
 		set_git_branch
-		compare_with_remote
+		git show &> /dev/null
+		if [ $? -ne 128 ]; then
+			compare_with_remote
+		fi
 		check_git_dirty
 		PS1="%F{green}%n@%m%f:%F{blue}%~%f${BRANCH}%F{magenta}${DIRTY_STATE}%f%F{yellow}${STATE}%f$ "
 	else
