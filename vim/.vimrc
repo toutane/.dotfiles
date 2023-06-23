@@ -14,15 +14,21 @@ nnoremap <Leader>ncc :set colorcolumn-=80<cr>
 
 call plug#begin('~/.vim/plugged')
 Plug 'gruvbox-community/gruvbox'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'mxw/vim-jsx'
+"Plug 'mxw/vim-jsx'
+"Plug 'pangloss/vim-javascript'
+"Plug 'leafgarland/typescript-vim'
 "Plug 'prabirshrestha/vim-lsp'
 "Plug 'mattn/vim-lsp-settings'
 "Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'lervag/vimtex'
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+
 call plug#end()
 
 colorscheme gruvbox
