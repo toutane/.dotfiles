@@ -14,22 +14,24 @@ function set_git_branch () {
 function compare_with_remote() {
 	UPSTREAM=${1:-'@{u}'}
 	LOCAL=$(git rev-parse @)
-	REMOTE=$(git rev-parse "$UPSTREAM")
-	BASE=$(git merge-base @ "$UPSTREAM")
+	REMOTE=$(git rev-parse "$UPSTREAM" 2> /dev/null)
+	BASE=$(git merge-base @ "$UPSTREAM" 2> /dev/null)
 	STATE=""
 
-	if [ $LOCAL = $REMOTE ]; then
-		#echo "Up-to-date"
-		STATE=""
-	elif [ $LOCAL = $BASE ]; then
-		#echo "Need to pull"
-		STATE=" ⇣ "
-	elif [ $REMOTE = $BASE ]; then
-		#echo "Need to push"
-		STATE=" ⇡ "
-	else
-		#echo "Diverged"
-		echo "2"
+	if [ -n "$REMOTE" ]; then
+		if [ $LOCAL = $REMOTE ]; then
+			#echo "Up-to-date"
+			STATE=""
+		elif [ $LOCAL = $BASE ]; then
+			#echo "Need to pull"
+			STATE=" ⇣ "
+		elif [ $REMOTE = $BASE ]; then
+			#echo "Need to push"
+			STATE=" ⇡ "
+		else
+			#echo "Diverged"
+			echo "2"
+		fi
 	fi
 }
 
