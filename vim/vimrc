@@ -1,0 +1,44 @@
+syntax on
+
+set nocompatible
+set background=dark
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+set smartindent
+set cindent
+set number
+set relativenumber
+set clipboard=unnamed
+nnoremap <Leader>cc :set colorcolumn=80<cr>
+nnoremap <Leader>ncc :set colorcolumn-=80<cr>
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'sheerun/vim-polyglot'
+"Plug 'jiangmiao/auto-pairs'
+Plug 'gruvbox-community/gruvbox'
+"Plug 'pangloss/vim-javascript'
+"Plug 'MaxMEllon/vim-jsx-pretty'
+"Plug 'prabirshrestha/vim-lsp'
+"Plug 'mattn/vim-lsp-settings'
+"Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+"Plug 'lervag/vimtex'
+"Plug 'w0rp/ale'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+call plug#end()
+
+" Set the signcolumn in the number column
+set signcolumn=number
+
+let g:gruvbox_contrast_dark="hard"
+colorscheme gruvbox
+
+set updatetime=300
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+highlight Comment cterm=italic gui=italic
