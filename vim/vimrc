@@ -11,24 +11,19 @@ set cindent
 set number
 set relativenumber
 set clipboard=unnamed
+
+let g:mapleader = ','
 nnoremap <Leader>cc :set colorcolumn=80<cr>
 nnoremap <Leader>ncc :set colorcolumn-=80<cr>
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'sheerun/vim-polyglot'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'gruvbox-community/gruvbox'
-"Plug 'pangloss/vim-javascript'
-"Plug 'MaxMEllon/vim-jsx-pretty'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'mattn/vim-lsp-settings'
-"Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
-"Plug 'lervag/vimtex'
-"Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'shirk/vim-gas'
 
 call plug#end()
 
@@ -41,4 +36,8 @@ colorscheme gruvbox
 set updatetime=300
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-highlight Comment cterm=italic gui=italic
+"highlight Comment cterm=italic gui=italic
+
+let g:coc_global_extensions = ['coc-pairs', 'coc-clangd']
+
+nnoremap <Leader>f :FZF<cr>
