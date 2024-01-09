@@ -24,6 +24,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'shirk/vim-gas'
+Plug 'github/copilot.vim'
 
 call plug#end()
 
@@ -38,6 +39,6 @@ inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 "highlight Comment cterm=italic gui=italic
 
-let g:coc_global_extensions = ['coc-pairs', 'coc-clangd']
+let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
 
 nnoremap <Leader>f :FZF<cr>
