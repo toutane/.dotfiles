@@ -1,0 +1,19 @@
+{
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/16.0.2/clangd_16.0.2/bin/clangd",
+  "clangd.arguments": [],
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"]
+    }
+  },
+  "lisp.enabled": true,
+  "lisp.serverPath": "cl-lsp",
+  "lisp.serverArguments": [],
+  "lisp.toolchain": "",
+  "lisp.maxNumberOfProblems": 100,
+  "lisp.trace.server": "",
+}
