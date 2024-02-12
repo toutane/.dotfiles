@@ -1,19 +1,17 @@
 export TERM="xterm-256color"
 
-# Set up tmux if it's not already running
-if [ -z $TMUX ]; then
-  tmux new-session -s default
-fi
 
-git_branch() {
-  BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-  if [ ! -z "${BRANCH}" ]
-  then
-    echo " %F{magenta}${BRANCH}%f"
-  fi
-}
+# for COLOR in {0..255} 
+# do
+#     for STYLE in "38;5"
+#     do 
+#         TAG="\033[${STYLE};${COLOR}m"
+#         STR="${STYLE};${COLOR}"
+#         echo -ne "${TAG}${STR}${NONE}  "
+#     done
+#     echo
+# done
 
-precmd() PROMPT="%F{green}%n@%m%f:%F{blue}%~%f$(git_branch)$ "
 
 export GO111MODULE=on
 export GOPATH=$HOME/go
@@ -32,5 +30,13 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-alias gs="git status"
-alias gl="git log --oneline"
+# Set up tmux if it's not already running
+if [ -z $TMUX ]; then
+  tmux new-session
+fi
+
+source ~/.dotfiles/zsh/aliases.sh
+source ~/.dotfiles/zsh/git_prompt.sh
+
+bright_green="%F{10}"
+precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_branch)$ "
