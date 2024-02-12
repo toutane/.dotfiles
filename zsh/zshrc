@@ -30,9 +30,17 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
+SESSION_NAME="default"
+
 # Set up tmux if it's not already running
-if [ -z $TMUX ]; then
-  tmux new-session
+if ! tmux has-session -t $SESSION_NAME 2> /dev/null ; then
+  # Create a new session
+  tmux new-session -s $SESSION_NAME
+else
+  # Check if we're already inside tmux
+  if [ -z "$TMUX" ]; then
+    tmux attach -t $SESSION_NAME
+  fi
 fi
 
 source ~/.dotfiles/zsh/aliases.sh
