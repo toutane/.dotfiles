@@ -1,17 +1,17 @@
-#. ~/.zsh_prompt
-
-function parse_git_dirty () {
-  [[ $(git status --porcelain 2> /dev/null) ]] && echo "*"
-}
-function parse_git_branch () {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/ (\1$(parse_git_dirty))/"
-}
-
-#PS1="%F{green}%n@%m%f:%F{blue}%~%f${BRANCH}%F{magenta}${DIRTY_STATE}%f%F{yellow}${STATE}%f$ "
-precmd() {
-  export PS1="%F{green}%n@%m%f:%F{blue}%~%f%F{magenta}$(parse_git_branch)%f$ " # username@machinename:(green)[currentdir]$ 
-}
 export TERM="xterm-256color"
+
+
+# for COLOR in {0..255} 
+# do
+#     for STYLE in "38;5"
+#     do 
+#         TAG="\033[${STYLE};${COLOR}m"
+#         STR="${STYLE};${COLOR}"
+#         echo -ne "${TAG}${STR}${NONE}  "
+#     done
+#     echo
+# done
+
 
 export GO111MODULE=on
 export GOPATH=$HOME/go
@@ -29,3 +29,14 @@ export NVM_DIR="$HOME/.nvm"
 . "$HOME/.cargo/env"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+# Set up tmux if it's not already running
+if [ -z $TMUX ]; then
+  tmux new-session
+fi
+
+source ~/.dotfiles/zsh/aliases.sh
+source ~/.dotfiles/zsh/git_prompt.sh
+
+bright_green="%F{10}"
+precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_branch)$ "
