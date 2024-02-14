@@ -48,3 +48,11 @@ source ~/.dotfiles/zsh/git_prompt.sh
 
 bright_green="%F{10}"
 precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_branch)$ "
+
+
+# Postgres configuration
+export PGDATA="$HOME/postgres_data"
+export PGHOST="/tmp"
+
+# Change the default Java version to openjdk 17
+export JAVA_HOME=$(/usr/libexec/java_home -v 17.0.5)
