@@ -1,0 +1,25 @@
+[font]
+size = 18.0
+
+[font.italic]
+family = "Operator Mono"
+style = "Book Italic"
+
+[font.normal]
+family = "Operator Mono"
+style = "Book"
+
+[font.bold]
+family = "Operator Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "Operator Mono"
+style = "Bold Italic"
+
+[window]
+opacity = 1
+
+[window.dimensions]
+columns = 120
+lines = 35
