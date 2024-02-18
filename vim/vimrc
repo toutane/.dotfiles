@@ -1,45 +1,61 @@
+" Enable syntax highlighting
 syntax on
 
+" Use Vim settings rather than Vi settings
 set nocompatible
+
+" Set dark background
 set background=dark
+
+" Indentation settings
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
 set smartindent
 set cindent
+
+" Show line numbers and relative line numbers
 set number
 set relativenumber
+
+" Enable system clipboard integration
 set clipboard=unnamed
 
+" Define leader key as comma
 let g:mapleader = ','
-nnoremap <Leader>cc :set colorcolumn=80<cr>
-nnoremap <Leader>ncc :set colorcolumn-=80<cr>
 
-call plug#begin('~/.vim/plugged')
-
-Plug 'sheerun/vim-polyglot'
-Plug 'gruvbox-community/gruvbox'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-airline/vim-airline'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'shirk/vim-gas'
-Plug 'github/copilot.vim'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-
-call plug#end()
+" Source color column toggle script
+source ~/.vim/autoload/toggle_colorcolumn.vim
 
 " Set the signcolumn in the number column
 set signcolumn=number
 
+" Set the update time for CursorHold events
+set updatetime=300
+
+" Plugin manager setup (vim-plug)
+call plug#begin('~/.vim/plugged')
+  Plug 'sheerun/vim-polyglot'
+  Plug 'gruvbox-community/gruvbox'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'vim-airline/vim-airline'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'shirk/vim-gas'
+  Plug 'github/copilot.vim'
+  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+call plug#end()
+
+" Set gruvbox color scheme with hard contrast
 let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
 
-set updatetime=300
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
-"highlight Comment cterm=italic gui=italic
-
+" Coc.nvim configuration
 let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
 
+" FZF mapping to open files with <leader>f
 nnoremap <Leader>f :FZF<cr>
+
+" Highlight Comment in italics
+highlight Comment cterm=italic
+highlight htmlItalic cterm=italic
