@@ -16,4 +16,5 @@
   "lisp.toolchain": "",
   "lisp.maxNumberOfProblems": 100,
   "lisp.trace.server": "",
+  "coc.preferences.formatOnSaveFiletypes": ["html", "css", "markdown"],
 }

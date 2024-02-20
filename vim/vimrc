@@ -1,6 +1,9 @@
 " Enable syntax highlighting
 syntax on
 
+" Enable filetype detection
+filetype plugin on
+
 " Use Vim settings rather than Vi settings
 set nocompatible
 
@@ -44,6 +47,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'shirk/vim-gas'
   Plug 'github/copilot.vim'
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+  Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+  Plug 'preservim/nerdcommenter'
+  Plug 'alvan/vim-closetag'
 call plug#end()
 
 " Set gruvbox color scheme with hard contrast
@@ -54,14 +60,16 @@ colorscheme gruvbox
 let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
 
 " Use <CR> to trigger coc completion
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " FZF mapping to open files with <leader>f
 nnoremap <Leader>f :FZF<CR>
 
-" Highlight Comment in italics
+" Highlight Comment, html and copilot suggestion in italics
 highlight Comment cterm=italic
 highlight htmlItalic cterm=italic
+highlight CopilotSuggestion cterm=italic
 
 " Toggle Github Copilot
 function! ToggleCopilot()
@@ -75,3 +83,8 @@ function! ToggleCopilot()
 endfunction
 
 nnoremap <leader>gc :call ToggleCopilot()<cr>
+
+" Hexokinase configuration
+set termguicolors
+let g:Hexokinase_highlighters = ['backgroundfull']
+let g:Hexokinase_refreshEvents = ['TextChanged', 'InsertLeave', 'BufRead', 'TextChangedI']
