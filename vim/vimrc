@@ -53,9 +53,25 @@ colorscheme gruvbox
 " Coc.nvim configuration
 let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
 
+" Use <CR> to trigger coc completion
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
 " FZF mapping to open files with <leader>f
-nnoremap <Leader>f :FZF<cr>
+nnoremap <Leader>f :FZF<CR>
 
 " Highlight Comment in italics
 highlight Comment cterm=italic
 highlight htmlItalic cterm=italic
+
+" Toggle Github Copilot
+function! ToggleCopilot()
+  if exists('b:copilot_enabled') && b:copilot_enabled
+    let b:copilot_enabled = 0
+    echo "GitHub Copilot disabled"
+  else
+    let b:copilot_enabled = 1
+    echo "GitHub Copilot enabled"
+  endif
+endfunction
+
+nnoremap <leader>gc :call ToggleCopilot()<cr>
