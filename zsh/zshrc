@@ -52,4 +52,4 @@ source ~/.dotfiles/zsh/git_prompt.sh
 
 # Set up the prompt
 bright_green="%F{10}"
-precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_branch)$ "
+precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
