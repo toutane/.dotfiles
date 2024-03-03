@@ -56,3 +56,4 @@ source ~/.dotfiles/zsh/git_prompt.sh
 # Set up the prompt
 bright_green="%F{10}"
 precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
+export PATH=/usr/local/gcc-9.1/bin:$PATH

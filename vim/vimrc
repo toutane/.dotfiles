@@ -40,7 +40,7 @@ set updatetime=300
 " Plugin manager setup (vim-plug)
 call plug#begin('~/.vim/plugged')
   Plug 'sheerun/vim-polyglot'
-  Plug 'gruvbox-community/gruvbox'
+  Plug 'morhetz/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'vim-airline/vim-airline'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -50,18 +50,61 @@ call plug#begin('~/.vim/plugged')
   Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   Plug 'preservim/nerdcommenter'
   Plug 'alvan/vim-closetag'
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'matze/vim-move'
 call plug#end()
 
+let g:move_key_modifier = 'C'
+let g:move_key_modifier_visualmode = 'C'
+
+" Gruvbox theme configuration
 " Set gruvbox color scheme with hard contrast
-let g:gruvbox_contrast_dark="hard"
-colorscheme gruvbox
+let g:gruvbox_contrast_dark='hard'
+"let g:gruvbox_number_column='bg0'
+"let g:gruvbox_contrast_light="hard"
+let g:gruvbox_italic='1'
+"colorscheme gruvbox
+
+" Ayu theme configuration
+"let ayucolor='light'
+"colorscheme ayu
 
 " Coc.nvim configuration
 let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
 
 " Use <CR> to trigger coc completion
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
                                            \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " FZF mapping to open files with <leader>f
 nnoremap <Leader>f :FZF<CR>
@@ -71,13 +114,16 @@ highlight Comment cterm=italic
 highlight htmlItalic cterm=italic
 highlight CopilotSuggestion cterm=italic
 
+" Disable Copilot by default
+let g:copilot_enabled = 0
+
 " Toggle Github Copilot
 function! ToggleCopilot()
-  if exists('b:copilot_enabled') && b:copilot_enabled
-    let b:copilot_enabled = 0
+  if exists('g:copilot_enabled') && g:copilot_enabled
+    let g:copilot_enabled = 0
     echo "GitHub Copilot disabled"
   else
-    let b:copilot_enabled = 1
+    let g:copilot_enabled = 1
     echo "GitHub Copilot enabled"
   endif
 endfunction
@@ -88,3 +134,4 @@ nnoremap <leader>gc :call ToggleCopilot()<cr>
 set termguicolors
 let g:Hexokinase_highlighters = ['backgroundfull']
 let g:Hexokinase_refreshEvents = ['TextChanged', 'InsertLeave', 'BufRead', 'TextChangedI']
+
