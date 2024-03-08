@@ -3,14 +3,20 @@ export DB_USERNAME="toutane"
 export PGDATA="$HOME/postgres_data"
 export PGHOST="/tmp"
 
-# Java configuration
-export JAVA_HOME=$(/usr/libexec/java_home -v 17.0.5)
+# Java configuration, only if it's installed
+if [ -d "/Library/Java/JavaVirtualMachines" ]; then
+  export JAVA_HOME=$(/usr/libexec/java_home -v 17.0.5)
+fi
 
 # Golang configuration
-export GO111MODULE=on
-export GOPATH=$HOME/go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+if [ -f /etc/debian_version ]; then
+  export PATH=$PATH:/usr/local/go/bin
+else
+  export GO111MODULE=on
+  export GOPATH=$HOME/go
+  export GOROOT=/usr/local/opt/go/libexec
+  export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+fi
 
 # Deno configuration
 export PATH="/Users/toutane/.deno/bin:$PATH"
@@ -24,8 +30,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # Load nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # Load nvm bash_completion
 
-# Rust configurations
-. "$HOME/.cargo/env"
+# Rust configurations, only if it's installed
+[ -s "$HOME/.cargo/env" ] && \
 
 # LLVM configurations
 export PATH="/usr/local/opt/llvm/bin:$PATH"
@@ -55,5 +61,17 @@ source ~/.dotfiles/zsh/git_prompt.sh
 
 # Set up the prompt
 bright_green="%F{10}"
-precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
-export PATH=/usr/local/gcc-9.1/bin:$PATH
+
+# Check if on debian
+if [ -f /etc/debian_version ]; then
+  precmd() PROMPT="${bright_green}%n@debian%f:%F{blue}%~%f$(git_prompt)$ "
+else
+  precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
+fi
+autoload -Uz compinit && compinit
+
+# Language configurations
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
