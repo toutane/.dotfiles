@@ -37,12 +37,15 @@ set signcolumn=number
 " Set the update time for CursorHold events
 set updatetime=300
 
+"let g:airline_theme='gruvbox'
+
 " Plugin manager setup (vim-plug)
 call plug#begin('~/.vim/plugged')
   Plug 'sheerun/vim-polyglot'
   Plug 'morhetz/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'vim-airline/vim-airline'
+  "Plug 'vim-airline/vim-airline-themes'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'shirk/vim-gas'
   Plug 'github/copilot.vim'
@@ -52,6 +55,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'alvan/vim-closetag'
   Plug 'ayu-theme/ayu-vim'
   Plug 'matze/vim-move'
+  Plug 'Yggdroot/indentLine'
+  Plug 'bling/vim-bufferline'
+  Plug 'chclouse/tiger-vim'
 call plug#end()
 
 let g:move_key_modifier = 'C'
@@ -60,10 +66,10 @@ let g:move_key_modifier_visualmode = 'C'
 " Gruvbox theme configuration
 " Set gruvbox color scheme with hard contrast
 let g:gruvbox_contrast_dark='hard'
-"let g:gruvbox_number_column='bg0'
+"let g:gruvbox_number_column='bg1'
 "let g:gruvbox_contrast_light="hard"
 let g:gruvbox_italic='1'
-"colorscheme gruvbox
+colorscheme gruvbox
 
 " Ayu theme configuration
 "let ayucolor='light'
@@ -89,17 +95,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
-
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -114,24 +109,82 @@ highlight Comment cterm=italic
 highlight htmlItalic cterm=italic
 highlight CopilotSuggestion cterm=italic
 
-" Disable Copilot by default
-let g:copilot_enabled = 0
-
-" Toggle Github Copilot
-function! ToggleCopilot()
-  if exists('g:copilot_enabled') && g:copilot_enabled
-    let g:copilot_enabled = 0
-    echo "GitHub Copilot disabled"
-  else
-    let g:copilot_enabled = 1
-    echo "GitHub Copilot enabled"
-  endif
-endfunction
-
-nnoremap <leader>gc :call ToggleCopilot()<cr>
-
 " Hexokinase configuration
 set termguicolors
 let g:Hexokinase_highlighters = ['backgroundfull']
 let g:Hexokinase_refreshEvents = ['TextChanged', 'InsertLeave', 'BufRead', 'TextChangedI']
 
+
+" IndentLine configuration
+" let g:indentLine_char = '▏'
+
+" Only if the character is the first of the column
+let g:indentLine_char = '⎸'
+
+" Vim airline configuration
+
+" Disable airline
+" let g:airline#enabled = 0
+let g:airline_disable_statusline = 1
+
+" Enable bufferline and airline together
+"let g:airline#extensions#bufferline#enabled = 1
+"let g:airline#extensions#bufferline#overwrite_variables = 1
+
+"let g:bufferline_echo = 0
+"autocmd VimEnter *
+  "\ let &statusline='%{bufferline#refresh_status()}'
+    "\ .bufferline#get_status_string()
+
+" Change  cursor shape in different modes
+"autocmd VimEnter,InsertLeave * set guicursor=n-v-c:block-Cursor/lCursor
+
+
+" -----------------------------------------------------------------------------
+" General settings
+" -----------------------------------------------------------------------------
+
+" Use a line cursor within insert mode, block cursor everywhere else.
+let &t_SI = "\e[5 q" " blinking vertical
+let &t_EI = "\e[2 q" " blinking block
+
+" -----------------------------------------------------------------------------
+" Coc configuration
+" -----------------------------------------------------------------------------
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+"  Toggle inlay hints with <leader>h
+nnoremap <leader>h :CocCommand document.toggleInlayHint<CR>
+
+" -----------------------------------------------------------------------------
+" Copilot configuration
+" -----------------------------------------------------------------------------
+
+" Enable Copilot by default.
+" let g:copilot_enabled = 1
+
+" Disable Copilot by default.
+let g:copilot_enabled = 0
+
+" Toggle Github Copilot with <leader>gc
+nnoremap <leader>gc :call ToggleCopilot()<cr>
+function! ToggleCopilot()
+  if exists('g:copilot_enabled') && g:copilot_enabled
+    let g:copilot_enabled = 0
+    echo "Copilot disabled"
+  else
+    let g:copilot_enabled = 1
+    echo "Copilot enabled"
+  endif
+endfunction
+
+" -----------------------------------------------------------------------------

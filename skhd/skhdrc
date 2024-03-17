@@ -3,7 +3,7 @@
 #focus window
 #ctrl - h : yabai -m window --focus west
 #ctrl - l : yabai -m window --focus east
-alt - n : yabai -m window --focus recent
+#alt - n : yabai -m window --focus recent
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
@@ -18,3 +18,8 @@ shift + alt - l : yabai -m window --swap east
 # float / unfloat window and center on screen
 alt - t : yabai -m window --toggle float;\
 		  yabai -m window --grid 4:4:1:1:2:2
+
+# Open alacritty with cmd + enter
+# cmd - return : open -a alacritty
+cmd - return : open - n /Applications/Alacritty.app
+alt - n : open - n /Applications/Alacritty.app

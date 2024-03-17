@@ -21,9 +21,12 @@ fi
 # Deno configuration
 export PATH="/Users/toutane/.deno/bin:$PATH"
 
+# Python configuration
+export PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:${PATH}"
+
 # Path configurations
-export PATH=/usr/local/bin:$PATH
-export PATH=/Users/toutane/Library/Application\ Support/Coursier/bin/:$PATH
+export PATH=/usr/local/bin:${PATH}
+export PATH=/Users/toutane/Library/Application\ Support/Coursier/bin/:${PATH}
 
 # Node Version Manager (NVM) configuration
 export NVM_DIR="$HOME/.nvm"
@@ -75,3 +78,5 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
+export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/usr/local/opt/llvm@14/bin:$PATH"

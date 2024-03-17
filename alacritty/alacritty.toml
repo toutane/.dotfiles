@@ -1,5 +1,6 @@
+
 [font]
-size = 18.0
+size = 16.0
 
 [font.italic]
 family = "Operator Mono"
@@ -19,7 +20,10 @@ style = "Bold Italic"
 
 [window]
 opacity = 0.999
+#decorations = "None"
+dimensions = { columns = 120, lines = 35 }
 
-[window.dimensions]
-columns = 120
-lines = 35
+[font.offset]
+x = 0
+y = 3
+

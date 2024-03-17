@@ -1,8 +1,6 @@
 {
-  "coc.preferences.extensionUpdateCheck": "daily",
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/16.0.2/clangd_16.0.2/bin/clangd",
- // "clangd.arguments": ["--inlay-hints=false"],
-//  "clangd.fallbackFlags": ["-std=c++20"],
+  "inlayHints.enabled": false,
+  "clangd.fallbackFlags": ["-std=c++20"],
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server-wrapper",
@@ -17,5 +15,13 @@
   "lisp.toolchain": "",
   "lisp.maxNumberOfProblems": 100,
   "lisp.trace.server": "",
-  "coc.preferences.formatOnSaveFiletypes": ["c", "cpp", "html", "css", "markdown"],
-}
+  "coc.preferences.formatOnSaveFiletypes": [
+    "c",
+    "cpp",
+    "html",
+    "css",
+    "markdown"
+  ],
+  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/17.0.3/clangd_17.0.3/bin/clangd",
+  "[cpp]" : {
+    "inlayHints.enabled": false
