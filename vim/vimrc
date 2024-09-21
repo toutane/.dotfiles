@@ -42,7 +42,8 @@ set updatetime=300
 " Plugin manager setup (vim-plug)
 call plug#begin('~/.vim/plugged')
   Plug 'sheerun/vim-polyglot'
-  Plug 'morhetz/gruvbox'
+  "Plug 'morhetz/gruvbox'
+  Plug 'gruvbox-community/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'vim-airline/vim-airline'
   "Plug 'vim-airline/vim-airline-themes'
@@ -58,6 +59,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Yggdroot/indentLine'
   Plug 'bling/vim-bufferline'
   Plug 'chclouse/tiger-vim'
+  Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 let g:move_key_modifier = 'C'
@@ -76,7 +78,7 @@ colorscheme gruvbox
 "colorscheme ayu
 
 " Coc.nvim configuration
-let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go']
+let g:coc_global_extensions = ['coc-pairs', 'coc-clangd', 'coc-go', 'coc-prettier']
 
 " Use <CR> to trigger coc completion
 "inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -104,13 +106,8 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 " FZF mapping to open files with <leader>f
 nnoremap <Leader>f :FZF<CR>
 
-" Highlight Comment, html and copilot suggestion in italics
-highlight Comment cterm=italic
-highlight htmlItalic cterm=italic
-highlight CopilotSuggestion cterm=italic
-
 " Hexokinase configuration
-set termguicolors
+"set termguicolors
 let g:Hexokinase_highlighters = ['backgroundfull']
 let g:Hexokinase_refreshEvents = ['TextChanged', 'InsertLeave', 'BufRead', 'TextChangedI']
 
@@ -188,3 +185,13 @@ function! ToggleCopilot()
 endfunction
 
 " -----------------------------------------------------------------------------
+"set termguicolors
+"colorscheme iceberg
+"colorscheme gruvbox
+"hi Normal guibg=NONE ctermbg=NONE
+ "Highlight Comment, html and copilot suggestion in italics
+hi Comment cterm=italic
+hi htmlItalic cterm=italic
+hi CopilotSuggestion cterm=italic
+
+set rtp^="/Users/toutane/.opam/default/share/ocp-indent/vim"

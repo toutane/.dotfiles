@@ -1,3 +1,4 @@
+import = ["~/.config/alacritty/iceberg.toml"]
 
 [font]
 size = 16.0
@@ -19,9 +20,9 @@ family = "Operator Mono"
 style = "Bold Italic"
 
 [window]
+#opacity = 0.85
 opacity = 0.999
-#decorations = "None"
-dimensions = { columns = 120, lines = 35 }
+dimensions = { columns = 150, lines = 40 }
 
 [font.offset]
 x = 0

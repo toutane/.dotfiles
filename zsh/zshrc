@@ -1,75 +1,52 @@
-# Database configurations
-export DB_USERNAME="toutane"
-export PGDATA="$HOME/postgres_data"
-export PGHOST="/tmp"
-
-# Java configuration, only if it's installed
-if [ -d "/Library/Java/JavaVirtualMachines" ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home -v 17.0.5)
-fi
-
 # Golang configuration
 if [ -f /etc/debian_version ]; then
   export PATH=$PATH:/usr/local/go/bin
 else
-  export GO111MODULE=on
+  #export GO111MODULE=on
   export GOPATH=$HOME/go
+  #export GOROOT=/usr/local/go/bin/go/libexec
   export GOROOT=/usr/local/opt/go/libexec
   export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 fi
 
-# Deno configuration
-export PATH="/Users/toutane/.deno/bin:$PATH"
-
-# Python configuration
-export PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:${PATH}"
-
-# Path configurations
-export PATH=/usr/local/bin:${PATH}
-export PATH=/Users/toutane/Library/Application\ Support/Coursier/bin/:${PATH}
-
-# Node Version Manager (NVM) configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # Load nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # Load nvm bash_completion
-
-# Rust configurations, only if it's installed
-[ -s "$HOME/.cargo/env" ] && \
-
-# LLVM configurations
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-
-# Bat configurations
-export BAT_THEME="gruvbox-dark"
-
-# Tmux configurations
 export TERM="xterm-256color"
 
 DEFAULT_SESSION_NAME="default"
 
 # Set up tmux if it's not already running
-if ! tmux has-session -t $DEFAULT_SESSION_NAME 2> /dev/null ; then
-  # Create a new session
-  tmux new-session -s $DEFAULT_SESSION_NAME
-else
-  # Check if we're already inside tmux
-  if [ -z "$TMUX" ]; then
-    tmux attach -t $DEFAULT_SESSION_NAME
-  fi
-fi
+# if ! tmux has-session -t $DEFAULT_SESSION_NAME 2> /dev/null ; then
+#   # Create a new session
+#   tmux new-session -s $DEFAULT_SESSION_NAME
+# else
+#   # Check if we're already inside tmux
+#   if [ -z "$TMUX" ]; then
+#     tmux attach -t $DEFAULT_SESSION_NAME
+#   fi
+# fi
 
 # Load zsh configurations
 source ~/.dotfiles/zsh/aliases.sh
-source ~/.dotfiles/zsh/git_prompt.sh
+# source ~/.dotfiles/zsh/git_prompt.sh
+git_prompt=""
 
 # Set up the prompt
 bright_green="%F{10}"
 
 # Check if on debian
 if [ -f /etc/debian_version ]; then
-  precmd() PROMPT="${bright_green}%n@debian%f:%F{blue}%~%f$(git_prompt)$ "
+  # precmd() PROMPT="${bright_green}%n@debian%f:%F{blue}%~%f$(git_prompt)$ "
+  precmd() PROMPT="${bright_green}%n@debian%f:%F{blue}%~%f$ "
 else
-  precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
+  # precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$(git_prompt)$ "
+  # precmd() PROMPT="${bright_green}%n@%m%f:%F{blue}%~%f$ "
+precmd() {
+    if [[ $PWD == $HOME ]]; then
+        CUR_DIR="~"
+    else
+        CUR_DIR="${PWD##*/}"
+    fi
+    PROMPT="${bright_green}%n@%m%f:%F{blue}$CUR_DIR%f$ "
+}
 fi
 autoload -Uz compinit && compinit
 
@@ -78,5 +55,44 @@ export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
+
+# Java configuration
+# export JAVA_HOME="$(/usr/libexec/java_home)"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home"
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+# export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-jdk-17.0.11+7.1/Contents/Home"
+export PATH=$JAVA_HOME/bin:$PATH
+# export PATH=$GRAALVM_HOME/bin:$PATH
+
 export PATH="/usr/local/opt/bison/bin:$PATH"
-export PATH="/usr/local/opt/llvm@14/bin:$PATH"
+export PATH="/usr/local/opt/bison/bin:$PATH"
+#alias gcc="gcc-12"
+#alias g++="g++-12"
+export   PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+
+#----------------------------------------
+# Tmux configuration
+#
+#----------------------------------------
+alias ls="ls"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+export ASAN_OPTIONS=detect_leaks=1
+alias code="open -a /Applications/Visual\ Studio\ Code.app ."
+#export PATH=/opt/gnat-ce-2021/bin:$PATH
+
+# opam configuration
+[[ ! -r /Users/toutane/.opam/opam-init/init.zsh ]] || source /Users/toutane/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+export PGDATA="$HOME/postgres_data"
+export PGHOST="/tmp"
+export USERNAME="toutane"
+export PASSWORD="1234"
+
+# bun completions
+[ -s "/Users/toutane/.bun/_bun" ] && source "/Users/toutane/.bun/_bun"
+export PATH="/usr/local/opt/binutils/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
